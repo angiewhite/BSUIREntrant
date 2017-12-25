@@ -1,0 +1,7 @@
+EntrantsTests/
+*.sln
+packages/
+.vs/
+bin/
+obj/
+*.csproj

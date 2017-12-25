@@ -1,0 +1,65 @@
+﻿@model EntrantsDomain.Entrant
+
+@{
+    HtmlHelper.ClientValidationEnabled = false;
+    HtmlHelper.UnobtrusiveJavaScriptEnabled = false;
+}
+
+<div class="panel">
+    <div class="panel-heading">
+        <h3>@ViewBag.Title</h3>
+    </div>
+    @using (Html.BeginForm("Edit", "Entrant"))
+    {
+        <div class="panel-body">
+            @Html.HiddenFor(m => m.EntrantID)
+            @foreach (var property in ViewData.ModelMetadata.Properties)
+            {
+                if (property.PropertyName != "EntrantID")
+                {
+                    <div class="form-group">
+                        <label>@(property.DisplayName ?? property.PropertyName)</label>
+                        @if (property.PropertyName == "Biography")
+                        {
+                            @Html.TextArea(property.PropertyName, null, new { @class = "form-control", rows = 5 })
+                        }
+                        else
+                        {
+                            string type = "";
+                            switch (property.PropertyName)
+                            {
+                                case "BirthDate":
+                                    type = "date";
+                                    break;
+                                case "GPA":
+                                    type = "number";
+                                    break;
+                                case "PhoneNumber":
+                                    type = "tel";
+                                    break;
+                            }
+                            if (type == "date")
+                            {
+                                @Html.TextBox(property.PropertyName, Model.BirthDate.ToString("yyyy-MM-dd"), new { @class = "form-control", type = "date" });
+
+                            }
+                            else
+                            {
+                                @Html.TextBox(property.PropertyName, null, new { @class = "form-control", type = type == "" ? "text" : type, step = type == "number" ? "0.01" : "0" });
+
+                            }
+                        }
+                        @Html.ValidationMessage(property.PropertyName)
+                    </div>
+                }
+             }
+        </div>
+        <div class="panel-footer">
+            <input type="submit" value="Save" class="btn btn-primary" />
+            @Html.ActionLink("Cancel and return to List", "List", null, new
+       {
+           @class = "btn btn-default"
+       })
+        </div>
+    }
+</div>

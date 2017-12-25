@@ -1,0 +1,41 @@
+﻿@using EntrantsDomain
+@using EntrantsWeb.HtmlHelpers
+@model EntrantsWeb.Models.EntrantsListViewModel
+
+@{
+    ViewBag.Title = "BSUIR Entrants";
+}
+
+<div class="row panel">
+    <div class="row">
+        <a href=@Url.Action("CreateEntrant") class="btn btn-success pull-right" style="margin: 10px; margin-right: 30px">Add Entrant</a>
+    </div>
+    @foreach (Entrant e in Model.Entrants)
+     {
+        <div class="well" style="padding: 20px; margin: 10px; border: solid medium black">
+                <div class="row">
+                    <div class="col-xs-10">
+                        <a href="@Url.Action("Edit", new { e.EntrantID })"><h3>@e.FirstName @e.FatherName @e.LastName</h3></a>
+                        <h4 style="font-weight: bold">GPA: @e.GPA</h4>
+                        <p style="font-size: 15pt"> Birth date: @e.BirthDate.ToShortDateString() </p>
+                    </div>
+                    <div class="col-xs-1">
+                        @using (Html.BeginForm("Delete", "Entrant"))
+                        {
+                            @Html.Hidden("EntrantID", e.EntrantID)
+                            <input type="submit"
+                                   class="btn btn-danger pull-right"
+                                   style="margin-top: 40px"
+                                   value="Delete" />
+                        }
+                    </div>
+                </div>
+        </div>
+     }
+    <div class="btn-group pull-right row" style="margin: 10px">
+        @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { page = x }))
+    </div>
+</div>
+
+
+        
