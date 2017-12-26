@@ -1,0 +1,33 @@
+﻿@using EntrantsDomain
+@model EntrantsWeb.Models.SelectedEntrants
+
+@{
+    ViewBag.Title = "Selected Entrants";
+}
+
+<h2>Selected Entrants</h2>
+
+@foreach (Entrant e in Model.Selected)
+{
+    <div style="border: solid medium black; margin: 10px" class="well row">
+        <div class="col-xs-10">
+            <h3>@e.FirstName @e.LastName</h3>
+            <h4>GPA - @e.GPA</h4>
+            <h4>@e.Biography</h4>
+            @using (Html.BeginForm("Remove", "SelectedEntrants"))
+            {
+                @Html.Hidden("EntrantID", e.EntrantID)
+                <input type="submit"
+                       class="btn btn-danger"
+                       value="Unselect" />
+            }
+        </div>
+        <div class="col-xs-1">
+
+        </div>
+    </div>
+}
+
+<div class="row">
+    <a href=@Url.Action("List", "Entrant") class="btn btn-success pull-right" style="margin: 10px; margin-right: 30px">Return</a>
+</div>

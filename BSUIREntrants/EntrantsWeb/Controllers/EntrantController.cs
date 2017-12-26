@@ -32,6 +32,7 @@ namespace EntrantsWeb.Controllers
                     TotalItems = repository.Entrants.Count()
                 }
             };
+            ViewBag.Page = page;
             return View(model);
         }
 
@@ -54,7 +55,6 @@ namespace EntrantsWeb.Controllers
             if (ModelState.IsValid)
             {
                 repository.SaveEntrant(entrant);
-                TempData["message"] = string.Format("{0} has been saved", entrant.FirstName);
                 return RedirectToAction("List");
             }
             else
@@ -67,10 +67,6 @@ namespace EntrantsWeb.Controllers
         public ActionResult Delete(int entrantID)
         {
             Entrant deletedEntrant = repository.DeleteEntrant(entrantID);
-            if (deletedEntrant != null)
-            {
-                TempData["message"] = string.Format("{0} was deleted.", deletedEntrant.FirstName);
-            }
             return RedirectToAction("List");
         }
     }
