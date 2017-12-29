@@ -24,7 +24,7 @@ namespace EntrantsWeb.Controllers
         {
             EntrantsListViewModel model = new EntrantsListViewModel
             {
-                Entrants = repository.Entrants.OrderByDescending(x => x.GPA).Skip((page - 1) * PageSize).Take(PageSize),
+                Entrants = repository.GetPage(page, PageSize),
                 PagingInfo = new PagingInfo
                 {
                     CurrentPage = page,
@@ -44,7 +44,7 @@ namespace EntrantsWeb.Controllers
 
         public ViewResult Edit(int entrantId)
         {
-            Entrant entrant = repository.Entrants.FirstOrDefault(e => e.EntrantID == entrantId);
+            Entrant entrant = repository.Find(entrantId);
             ViewBag.Title = "Edit";
             return View(entrant);
         }
