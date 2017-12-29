@@ -11,5 +11,7 @@ namespace EntrantsDomain.Abstract
         IEnumerable<Entrant> Entrants { get; }
         void SaveEntrant(Entrant entrant);
         Entrant DeleteEntrant(int entrantID);
+        Entrant Find(int entrantID);
+        IEnumerable<Entrant> GetPage(int pageNumber, int pageSize);
     }
 }
