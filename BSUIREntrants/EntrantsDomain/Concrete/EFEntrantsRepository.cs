@@ -53,11 +53,11 @@ namespace EntrantsDomain.Concrete
             return dbEntry;
         }
 
-        public Entrant Find(int entrantID) => Entrants.FirstOrDefault(e => e.EntrantID == entrantID);
+        public Entrant Find(int entrantID) => context.Entrants.FirstOrDefault(e => e.EntrantID == entrantID);
 
         public IEnumerable<Entrant> GetPage(int pageNumber, int pageSize)
         {
-            return Entrants.OrderByDescending(x => x.GPA).Skip((pageNumber - 1) * pageSize).Take(pageSize);
+            return context.Entrants.OrderByDescending(x => x.GPA).Skip((pageNumber - 1) * pageSize).Take(pageSize);
         }
     }
 }
