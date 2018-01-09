@@ -63,10 +63,22 @@ namespace EntrantsWeb.Controllers
             }
         }
 
+        public ViewResult View(int entrantID)
+        {
+            Entrant entrant = repository.Find(entrantID);
+            return View(entrant);
+        }
+
         [HttpPost]
         public ActionResult Delete(int entrantID)
         {
             Entrant deletedEntrant = repository.DeleteEntrant(entrantID);
+            var selectedEntrants = ((SelectedEntrants)Session["Selected"]);
+            var entrant = selectedEntrants.Selected.Where(e => e.EntrantID == entrantID).FirstOrDefault();
+            if (entrant != null)
+            {
+                selectedEntrants.RemoveEntrant(entrant);
+            }
             return RedirectToAction("List");
         }
     }
