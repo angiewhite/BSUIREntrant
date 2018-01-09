@@ -1,0 +1,23 @@
+﻿@model EntrantsDomain.Entrant
+
+@{
+    ViewBag.Title = "View";
+}
+
+<div class="row panel" style="margin: 10px">
+
+    <h4>@Model.FirstName @Model.LastName @Model.FatherName</h4>
+
+    <p>@Model.PhoneNumber</p>
+    <p>@Model.Address, @Model.Town</p>
+    <p>@Model.School</p>
+
+    <h5>GPA - @Model.GPA</h5>
+
+    <h6>@Model.Biography</h6>
+    <h6>@Model.BirthDate</h6>
+
+    <a href=@Url.Action("Edit", new { Model.EntrantID }) class="btn btn-success">Edit Entrant</a>
+</div>
+
+<footer style="margin: 10px"></footer>
