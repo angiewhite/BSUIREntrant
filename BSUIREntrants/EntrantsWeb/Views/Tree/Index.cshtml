@@ -21,6 +21,10 @@
             {
                 var type
                 var id
+                if (event.target.children.length != 0) {
+                    $(event.target).children().remove()
+                    return;
+                } 
                 if (event.target.id == 'root') {
                     type = 'root'
                     id = 0
@@ -36,7 +40,6 @@
                         },
                         success: function (data, state, xhr)
                         {
-                            var dom = ""
                             var type = null
                             
                             if (data[0]) {
