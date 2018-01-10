@@ -22,9 +22,9 @@
                 var type
                 var id
                 if (event.target.children.length != 0) {
-                    $(event.target).children().remove()
+                    event.target.children[0].style.display = event.target.children[0].style.display == "none" ? "block" : "none";
                     return;
-                } 
+                }
                 if (event.target.id == 'root') {
                     type = 'root'
                     id = 0
@@ -48,7 +48,7 @@
                                 $(event.target).children().each(function (index)
                                 {
                                     this.id = type
-                                    this.style = "margin-left: 10px; width: auto; display: block; border: solid black; border-width: thin"
+                                    this.style = "margin-left: 10px; cursor: pointer; width: auto; display: block; border: solid black; border-width: thin"
                                 })
                             }
 
@@ -69,7 +69,7 @@
 <body>
     <h1 style="margin-left: 10px">Tree</h1>
     <div class="row panel" style="margin-left: 10px">
-        <div id="root" style="background-color:aqua; margin-right: 30px; border: solid black; border-width: thin">
+        <div id="root" style="background-color:aqua; margin-right: 30px; border: solid black; border-width: thin; cursor: pointer">
         BSUIR (@Model.Faculties.Count())
         </div>
     </div>
