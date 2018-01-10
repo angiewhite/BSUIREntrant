@@ -136,6 +136,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\TreeView.css" />
     <Content Include="Web.config" />
     <Content Include="Views\Entrant\CreateEntrant.cshtml" />
     <Content Include="Views\Entrant\Edit.cshtml" />
@@ -146,6 +147,7 @@
     <Compile Include="Controllers\EntrantController.cs" />
     <Compile Include="Controllers\RLSController.cs" />
     <Compile Include="Controllers\SelectedEntrantsController.cs" />
+    <Compile Include="Controllers\TreeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -154,6 +156,7 @@
     <Compile Include="Models\EntrantsListViewModel.cs" />
     <Compile Include="Models\PagingInfo.cs" />
     <Compile Include="Models\SelectedEntrants.cs" />
+    <Compile Include="Models\TreeLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -165,6 +168,7 @@
     <Content Include="Views\SelectedEntrants\ShowSelectedEntrants.cshtml" />
     <Content Include="Views\Entrant\View.cshtml" />
     <Content Include="Views\RLS\Index.cshtml" />
+    <Content Include="Views\Tree\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

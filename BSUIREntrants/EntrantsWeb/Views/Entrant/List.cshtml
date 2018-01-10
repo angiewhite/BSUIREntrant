@@ -11,6 +11,7 @@
         <a href=@Url.Action("CreateEntrant") class="btn btn-success pull-right" style="margin: 10px; margin-right: 30px">Add Entrant</a>
         <a href=@Url.Action("ShowSelectedEntrants", "SelectedEntrants") class="btn btn-success pull-right" style="margin: 10px; margin-right: 30px">View Selected</a>
         <a href=@Url.Action("Index", "RLS") class="btn btn-success pull-right" style="margin: 10px; margin-right: 30px">RLS</a>
+        <a href=@Url.Action("Index", "Tree") class="btn btn-success pull-right" style="margin: 10px; margin-right: 30px">Tree</a>   
     </div>
     @foreach (Entrant e in Model.Entrants)
      {

@@ -1,0 +1,74 @@
+﻿@using EntrantsDomain.UniversityStructure
+@model University
+
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tree</title>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <script src="~/Scripts/jquery-3.2.1.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#root").click(function (event)
+            {
+                var type
+                var id
+                if (event.target.id == 'root') {
+                    type = 'root'
+                    id = 0
+                } else {
+                    id = event.target.id
+                    type = event.target.parentNode.id
+                }
+                $.ajax("GetChildren",
+                    {
+                        data: {
+                            typeName: type,
+                            id: id
+                        },
+                        success: function (data, state, xhr)
+                        {
+                            var dom = ""
+                            var type = null
+                            
+                            if (data[0]) {
+                                type = data[0].type
+                                $(event.target).append("<div/>")
+                                $(event.target).children().each(function (index)
+                                {
+                                    this.id = type
+                                    this.style = "margin-left: 10px; width: auto; display: block; border: solid black; border-width: thin"
+                                })
+                            }
+
+                            for (key in data)
+                            {
+                                var obj = data[key]
+                                $(event.target).children().each(function (index)
+                                {
+                                    $(this).append("<div id=" + obj.id + ">" + obj.name + "(" + obj.count + ")</div>")
+                                })
+                            }
+                        }
+                    })
+            })
+        })
+    </script>
+</head>
+<body>
+    <h1 style="margin-left: 10px">Tree</h1>
+    <div class="row panel" style="margin-left: 10px">
+        <div id="root" style="background-color:aqua; margin-right: 30px; border: solid black; border-width: thin">
+        BSUIR (@Model.Faculties.Count())
+        </div>
+    </div>
+</body>
+</html>
