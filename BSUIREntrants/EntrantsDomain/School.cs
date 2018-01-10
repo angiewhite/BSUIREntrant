@@ -11,6 +11,5 @@ namespace EntrantsDomain
         public int SchoolId { get; set; }
         public string SchoolName { get; set; }
         public int LocalityId { get; set; }
-        public Locality Locality { get; set; }
     }
 }

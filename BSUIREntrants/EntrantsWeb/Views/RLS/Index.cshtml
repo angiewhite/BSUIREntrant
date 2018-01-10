@@ -26,8 +26,7 @@
                             $("#localities").children().remove();
                             $("#localities").append("<option id=\"0\">Choose a locality</option>");
                             $("#localities").trigger("change");
-                            for (key in data) 
-                            {
+                            for (key in data) {
                                 var locality = data[key];
                                 $("#localities").append("<option id=" + locality.LocalityId + ">" + locality.LocalityName + "</option>")
                             }
@@ -58,13 +57,13 @@
         <table>
             <tr>
                 <td>
-                        <select id="regions" style="width: 200px; margin: 10px; margin-left: 20px">
-                            <option id="0">Choose a region</option>
-                            @foreach (var r in Model)
-                            {
-                                <option id="@r.RegionId">@r.RegionalCenter</option>
-                            }
-                        </select>
+                    <select id="regions" style="width: 200px; margin: 10px; margin-left: 20px">
+                        <option id="0">Choose a region</option>
+                        @foreach (var r in Model)
+                        {
+                            <option id="@r.RegionId">@r.RegionalCenter</option>
+                        }
+                    </select>
                 </td>
             </tr>
             <tr><td><select id="localities" style="width: 200px; margin: 10px; margin-left: 20px"><option id="0">Choose a locality</option></select></td></tr>
@@ -72,9 +71,7 @@
         </table>
     </div>
     <script>
-        
+
     </script>
 </body>
 </html>
-
-

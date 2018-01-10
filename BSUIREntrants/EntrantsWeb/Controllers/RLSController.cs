@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using EntrantsDomain.Concrete;
+using EntrantsDomain.UniversityStructure;
 using EntrantsDomain;
 
 namespace EntrantsWeb.Controllers
@@ -19,12 +20,17 @@ namespace EntrantsWeb.Controllers
 
         public JsonResult GetSchools(int LocalityId = 0)
         {
-            return Json(rep.Schools.Where(s => s.LocalityId == LocalityId), JsonRequestBehavior.AllowGet);
+            return Json(rep.GetSchools(LocalityId), JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetLocalities(int RegionId = 0)
         {
-            return Json(rep.Localities.Where(l => l.RegionId == RegionId), JsonRequestBehavior.AllowGet);
+            return Json(rep.GetLocalities(RegionId), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetRegion(int RegionId)
+        {
+            return Json(rep.GetRegion(RegionId), JsonRequestBehavior.AllowGet);
         }
     }
 }

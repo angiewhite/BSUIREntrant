@@ -72,11 +72,16 @@
     <Compile Include="Concrete\EFDbContext.cs" />
     <Compile Include="Concrete\EFEntrantsRepository.cs" />
     <Compile Include="Concrete\RLSRepository.cs" />
+    <Compile Include="Concrete\UniversityStructureRepository.cs" />
     <Compile Include="Entrant.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Region.cs" />
     <Compile Include="Locality.cs" />
     <Compile Include="School.cs" />
+    <Compile Include="UniversityStructure\Faculty.cs" />
+    <Compile Include="UniversityStructure\Specialty.cs" />
+    <Compile Include="UniversityStructure\Subject.cs" />
+    <Compile Include="UniversityStructure\University.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
