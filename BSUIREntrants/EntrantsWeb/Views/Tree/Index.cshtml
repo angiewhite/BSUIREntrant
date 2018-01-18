@@ -13,65 +13,36 @@
     <title>Tree</title>
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Scripts/grid.css" rel="stylesheet" type="text/css" />
+    <link href="~/Scripts/checkbox.css" rel="stylesheet" type="text/css" />
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
     <script src="~/Scripts/jquery-3.2.1.js"></script>
+    <script src="~/Scripts/Tree.js"></script>
     <script>
         $(document).ready(function () {
-            $("#root").click(function (event)
-            {
-                var type
-                var id
-                if (event.target.children.length != 0) {
-                    event.target.children[0].style.display = event.target.children[0].style.display == "none" ? "block" : "none";
-                    return;
-                }
-                if (event.target.id == 'root') {
-                    type = 'root'
-                    id = 0
-                } else {
-                    id = event.target.id
-                    type = event.target.parentNode.id
-                }
-                $.ajax("GetChildren",
-                    {
-                        data: {
-                            typeName: type,
-                            id: id
-                        },
-                        success: function (data, state, xhr)
-                        {
-                            var type = null
-                            
-                            if (data[0]) {
-                                type = data[0].type
-                                $(event.target).append("<div/>")
-                                $(event.target).children().each(function (index)
-                                {
-                                    this.id = type
-                                    this.style = "margin-left: 10px; cursor: pointer; width: auto; display: block; border: solid black; border-width: thin"
-                                })
-                            }
+            tree("root", "/Tree/GetChildren")
 
-                            for (key in data)
-                            {
-                                var obj = data[key]
-                                $(event.target).children().each(function (index)
-                                {
-                                    $(this).append("<div id=" + obj.id + ">" + obj.name + "(" + obj.count + ")</div>")
-                                })
-                            }
-                        }
-                    })
+            $('#root').change(function (eventObj) {
+                var target = $(eventObj.target)
+                if (!target.parent().hasClass("IsRoot"))
+                    checkParents(target)
+                var childInputs = target.parent().find("input")
+                childInputs.prop("checked", target.prop("checked"))
             })
+
+            
         })
     </script>
 </head>
 <body>
-    <h1 style="margin-left: 10px">Tree</h1>
-    <div class="row panel" style="margin-left: 10px">
-        <div id="root" style="background-color:aqua; margin-right: 30px; border: solid black; border-width: thin; cursor: pointer">
-        BSUIR (@Model.Faculties.Count())
-        </div>
-    </div>
+    <h1>Tree</h1>
+    <ul class="Container" id="root">
+        <li id="0" class="Node IsRoot IsLast ExpandClosed">
+            <div class="Expand"></div>
+            <input type="checkbox"/>
+            <div class="Content">BSUIR (@Model.Faculties.Count())</div>
+            <ul class="Container"></ul>
+        </li>
+    </ul>
 </body>
 </html>
