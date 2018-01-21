@@ -28,5 +28,11 @@ namespace EntrantsWeb.Controllers
             object wanted = TreeLoader.GetNodeInfo(typeName, (int)id, rep); 
             return Json(wanted, JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult GetChildrenCount(string typeName, int? id, bool plus)
+        {
+            if (typeName == "root") return Json((plus ? 1 : -1) * TreeLoader.CalculateDescendants(BSUIR), JsonRequestBehavior.AllowGet);
+            return Json((plus ? 1 : -1) * TreeLoader.GetNumberOfDescendants(typeName, (int)id, rep), JsonRequestBehavior.AllowGet);
+        }
     }
 }
