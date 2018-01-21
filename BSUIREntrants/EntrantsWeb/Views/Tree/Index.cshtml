@@ -20,17 +20,59 @@
     <script src="~/Scripts/Tree.js"></script>
     <script>
         $(document).ready(function () {
+            var count = 0
+            $("p").html(count)
             tree("root", "/Tree/GetChildren")
-
             $('#root').change(function (eventObj) {
                 var target = $(eventObj.target)
-                if (!target.parent().hasClass("IsRoot"))
-                    checkParents(target)
+                //$.ajax({
+                //    url: "/Tree/GetChildrenCount",
+                //    data: {
+                //        id: target.parent().prop("id"),
+                //        typeName: target.parent().parent().prop("id"),
+                //        plus: target.prop("checked")
+                //    },
+                //    dataType: "json",
+                //    success: function (data, status, xhr) {
+                //        count = data
+                //        $("p").html(count)
+                //    },
+                //    cache: false
+                //})
+                sendRequest(target, target, target.prop("checked"))
                 var childInputs = target.parent().find("input")
                 childInputs.prop("checked", target.prop("checked"))
+                checkParents(target)      
             })
 
-            
+            function sendRequest(target, clicked, check) {
+                if (check || isFullyChecked(target)) {
+                    if (!check && target.prop("checked") == check && target != clicked) return;
+                    $.ajax({
+                        url: "/Tree/GetChildrenCount",
+                        data: {
+                            id: target.parent().prop("id"),
+                            typeName: target.parent().parent().prop("id"),
+                            plus: check
+                        },
+                        dataType: "json",
+                        success: function (data, status, xhr) {
+                            count += data
+                            $("p").html(count)
+                        },
+                        cache: false
+                    })
+                } else {
+                    target.parent().children("ul").children("li").children("input").each(function () {
+                        sendRequest($(this), clicked, check)
+                    })
+                }
+            }
+
+            function isFullyChecked(target)
+            {
+                return target.parent().children().find("input").length == target.parent().children().find("input:checked").length
+            }
         })
     </script>
 </head>
@@ -44,5 +86,6 @@
             <ul class="Container"></ul>
         </li>
     </ul>
+    <p></p>
 </body>
 </html>

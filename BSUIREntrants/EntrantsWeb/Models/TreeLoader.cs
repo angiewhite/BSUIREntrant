@@ -22,16 +22,14 @@ namespace EntrantsWeb.Models
         public static object GetNodeInfo(object obj)
         {
             //here we look for an enumerable property and its content
-            PropertyInfo childrenProperty = null;
-            Type type = obj.GetType();
-            childrenProperty = FindEnumerableProperties(type).FirstOrDefault();
+            PropertyInfo childrenProperty = GetChildrenProperty(obj);
             if (childrenProperty == null) return null;
-            var childType = childrenProperty.PropertyType.GetGenericArguments().FirstOrDefault();
-            var children = childrenProperty.GetValue(obj) as IEnumerable;
+            var childType = GetGenericType(childrenProperty);
+            var children = GetChildren(obj, childrenProperty);
             if (children == null) return null;
-            var grandChildrenProperty = FindEnumerableProperties(childType).FirstOrDefault();
 
             //here we build the response data
+            var grandChildrenProperty = FindEnumerableProperties(childType).FirstOrDefault();
             int count;
             List<object> childrenFormatted = new List<object>();
             foreach (var child in children)
@@ -50,14 +48,45 @@ namespace EntrantsWeb.Models
             return childrenFormatted;
         }
 
-        public static IEnumerable<PropertyInfo> FindEnumerableProperties(Type type) => type.GetProperties().Where(p => p.PropertyType.GetInterface(nameof(IEnumerable)) != null && p.PropertyType != typeof(string));
+        public static int GetNumberOfDescendants(string typeName, int id, UniversityStructureRepository rep)
+        {
+            object o = FindObject(typeName, id, rep);
+            return CalculateDescendants(o);
+        }
 
-        public static object GetProperty(string propertySuffix, dynamic obj, string typeName)
+        public static object GetObject(string typeName, int id, UniversityStructureRepository rep)
+        {
+            return FindObject(typeName, id, rep);
+        }
+
+        public static int CalculateDescendants(object o)
+        {
+            var childrenProperty = GetChildrenProperty(o);
+            if (childrenProperty == null)
+            {
+                return 1;
+            }
+            var children = GetChildren(o, childrenProperty);
+            if (children == null) return 0;
+            else
+            {
+                int sum = 0;
+                foreach (var child in children)
+                {
+                    sum += CalculateDescendants(child);
+                }
+                return sum;
+            }
+        }
+
+        private static IEnumerable<PropertyInfo> FindEnumerableProperties(Type type) => type.GetProperties().Where(p => p.PropertyType.GetInterface(nameof(IEnumerable)) != null && p.PropertyType != typeof(string));
+
+        private static object GetProperty(string propertySuffix, dynamic obj, string typeName)
         {
             return obj.GetType().GetProperty(typeName + propertySuffix).GetValue(obj); ;
         }
 
-        public static object FindObject(string typeName, int id, UniversityStructureRepository rep)
+        private static object FindObject(string typeName, int id, UniversityStructureRepository rep)
         {
             //here we look for the relevant enumerable property-collection in the repository
             var repositoryEnumerableProperties = FindEnumerableProperties(rep.GetType());
@@ -83,6 +112,22 @@ namespace EntrantsWeb.Models
                 if ((int)GetProperty("Id", current, typeName) == id) wanted = current;
             }
             return wanted;
+        }
+
+        private static PropertyInfo GetChildrenProperty(object obj)
+        {
+            Type type = obj.GetType();
+            return FindEnumerableProperties(type).FirstOrDefault();
+        }
+
+        private static IEnumerable GetChildren(object obj, PropertyInfo childrenProperty)
+        {
+            return childrenProperty.GetValue(obj) as IEnumerable;
+        }
+
+        private static Type GetGenericType(PropertyInfo childrenProperty)
+        {
+            return childrenProperty.PropertyType.GetGenericArguments().FirstOrDefault();
         }
     }
 }

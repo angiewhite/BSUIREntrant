@@ -108,12 +108,15 @@
 		}
 
 		load(node)
-	}
+    }
 }
 
 function checkParents(input) {
     if (!input.parent().hasClass("IsRoot")) {
         var parent = findParent(input, "input")
+        if (!input.prop("checked") && parent.parent().find("input:checked").length != 1) {
+            return
+        }
         parent.prop("checked", input.prop("checked"))
         checkParents(parent)
     }
